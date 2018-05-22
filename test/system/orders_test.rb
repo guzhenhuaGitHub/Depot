@@ -23,19 +23,27 @@ class OrdersTest < ApplicationSystemTestCase
     assert_no_selector '#order_po_number'
 
     select 'Check', from: 'pay_type'
+
     assert_selector '#order_routing_number'
     assert_no_selector '#order_credit_card_number'
     assert_no_selector '#order_po_number'
 
     select 'Credit card', from: 'pay_type'
+
     assert_no_selector '#order_routing_number'
     assert_selector '#order_credit_card_number'
     assert_no_selector '#order_po_number'
 
     select 'Purchase order', from: 'pay_type'
+
     assert_no_selector '#order_routing_number'
     assert_no_selector '#order_credit_card_number'
     assert_selector '#order_po_number'
 
+    select 'Select a payment method', from: 'pay_type'
+
+    assert_no_selector '#order_routing_number'
+    assert_no_selector '#order_credit_card_number'
+    assert_no_selector '#order_po_number'
   end
 end
