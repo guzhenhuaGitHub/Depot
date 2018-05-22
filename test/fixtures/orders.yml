@@ -11,3 +11,8 @@ two:
   address: MyText
   email: MyString
   pay_type: 1
+
+order_without_pay_type:
+  name: Dave Thomas
+  address: 123 Main Street
+  email: dave@example.com
