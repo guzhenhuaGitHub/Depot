@@ -1,0 +1,30 @@
+// Run this example by adding <%= javascript_pack_tag 'hello_react' %> to the head of your layout file,
+// like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
+// of the page.
+
+import React from 'react'
+
+class CreditCardPayType extends React.Component {
+  render() {
+    return(
+      <div>
+        <div className="field">
+          <label htmlFor="order_credit_card_number">CC #</label>
+          <input type="password"
+                 name="order[credit_card_number]"
+                 id="order_credit_card_number"/>
+        </div>
+        <div className="field">
+          <label htmlFor="order_expiration_date">Expiry</label>
+          <input type="text"
+                 name="order[expiration_date"
+                 id="order_expiration_date"
+                 size="9"
+                 placeholder="e.g. 03/19"/>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default CreditCardPayType
