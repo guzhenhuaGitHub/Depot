@@ -52,7 +52,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  # Suppress logger output for asset requests.
+  # Suppress logger output for asset requests.action_mailer
   config.assets.quiet = true
 
   # Raises error for missing translations
@@ -63,4 +63,10 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_cable.disable_request_forgery_protection = true
+
+  # if you'd rather disable email delivery in development mode
+  # please open this:
+  # Depot::Application.configure do
+  #   config.action_mailer.delivery_method = :test
+  # end
 end
