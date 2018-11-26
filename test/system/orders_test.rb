@@ -3,47 +3,56 @@
 require 'application_system_test_case'
 
 class OrdersTest < ApplicationSystemTestCase
+  include ActiveJob::TestHelper
+
   setup do
     @order_without_pay_type = orders(:order_without_pay_type)
   end
 
-  test 'check pay type selector' do
+  test 'check routing number' do
+
+    LineItem.delete_all
+    Order.delete_all
+
     visit store_index_url
 
     first('.catalog li').click_on 'Add to Cart'
+
     click_on 'Checkout'
 
-    fill_in 'order_name', with: @order_without_pay_type.name
-    fill_in 'order_address', with: @order_without_pay_type.address
-    fill_in 'order_email', with: @order_without_pay_type.email
+    fill_in 'order_name', with: 'Dave Thomas'
+    fill_in 'order_address', with: '123 Main Street'
+
+    fill_in 'order_email', with: 'dave@example.com'
 
     assert_no_selector '#order_routing_number'
-    assert_no_selector '#order_credit_card_number'
-    assert_no_selector '#order_po_number'
 
     select 'Check', from: 'pay_type'
 
     assert_selector '#order_routing_number'
-    assert_no_selector '#order_credit_card_number'
-    assert_no_selector '#order_po_number'
 
-    select 'Credit card', from: 'pay_type'
+    fill_in 'Routing #', with: '123456'
+    fill_in 'Account #', with: '987654'
 
-    assert_no_selector '#order_routing_number'
-    assert_selector '#order_credit_card_number'
-    assert_no_selector '#order_po_number'
+    perform_enqueued_jobs do
+      click_button 'Place Order'
+    end
 
-    select 'Purchase order', from: 'pay_type'
+    orders = Order.all
+    assert_equal 1, orders.size
 
-    assert_no_selector '#order_routing_number'
-    assert_no_selector '#order_credit_card_number'
-    assert_selector '#order_po_number'
+    order = orders.first
 
-    select 'Select a payment method', from: 'pay_type'
+    assert_equal 'Dave Thomas',       order.name
+    assert_equal '123 Main Street',   order.address
+    assert_equal 'dave@example.com',  order.email
+    assert_equal 'Check',             order.pay_type
+    assert_equal 1,                   order.line_items.size
 
-    assert_no_selector '#order_routing_number'
-    assert_no_selector '#order_credit_card_number'
-    assert_no_selector '#order_po_number'
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ['dave@example.com'],                  mail.to
+    assert_equal 'Sam Ruby <depot@example.com>',        mail[:from].value
+    assert_equal 'Pragmatic Store Order Confirmation',  mail.subject
   end
 
   test 'switch cart show and hide' do
