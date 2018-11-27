@@ -23,9 +23,9 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
       post products_url, params: {
         product: {
           description: @product.description,
-          image_url: @product.image_url,
-          price: @product.price,
-          title: @title
+          image_url:   @product.image_url,
+          price:       @product.price,
+          title:       @title
         }
       }
     end
@@ -47,9 +47,9 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     patch product_url(@product), params: {
       product: {
         description: @product.description,
-        image_url: @product.image_url,
-        price: @product.price,
-        title: @title
+        image_url:   @product.image_url,
+        price:       @product.price,
+        title:       @title
       }
     }
     assert_redirected_to product_url(@product)

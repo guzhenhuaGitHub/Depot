@@ -2,7 +2,7 @@
 
 require 'ostruct'
 class Pago
-  def self.make_payment(order_id:, payment_method:, payment_details:)
+  def self.make_payment(payment_method:, payment_details:)
     case payment_method
     when :check
       method_name = 'check'
@@ -23,8 +23,6 @@ class Pago
 
     OpenStruct.new succeeded?: true
   end
-
-  private
 
   def self.detail(*keys, details)
     keys.map { |key| details.fetch(key).to_s }.join('/')

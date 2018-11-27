@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 atom_feed do |feed|
   feed.title "who bought #{@product.title}"
 

@@ -16,9 +16,9 @@ class ProductTest < ActiveSupport::TestCase
 
   test 'product price must be positive' do
     product = Product.new(
-      title: 'My Book Title',
+      title:       'My Book Title',
       description: 'yyy',
-      image_url: 'zzz.jpg'
+      image_url:   'zzz.jpg'
     )
 
     product.price = -1
@@ -35,10 +35,10 @@ class ProductTest < ActiveSupport::TestCase
 
   def new_product(image_url)
     Product.new(
-      title: 'My Book Title',
+      title:       'My Book Title',
       description: 'yyy',
-      price: 1,
-      image_url: image_url
+      price:       1,
+      image_url:   image_url
     )
   end
 
@@ -57,10 +57,10 @@ class ProductTest < ActiveSupport::TestCase
 
   test 'product is not valid without a unique title' do
     product = Product.new(
-      title: products(:ruby).title,
+      title:       products(:ruby).title,
       description: 'yyy',
-      price: 1,
-      image_url: 'fred.gif'
+      price:       1,
+      image_url:   'fred.gif'
     )
     assert product.invalid?
     assert_equal ['has already been taken'], product.errors[:title]

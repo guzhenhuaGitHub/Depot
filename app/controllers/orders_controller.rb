@@ -82,6 +82,7 @@ class OrdersController < ApplicationController
 
   def ensure_cart_isnt_empty
     return unless @cart.line_items.empty?
+
     redirect_to store_index_url, notice: 'Your cart is empty'
   end
 
